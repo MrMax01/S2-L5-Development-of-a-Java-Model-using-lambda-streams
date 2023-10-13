@@ -1,11 +1,15 @@
 package org.example;
 
 
+import org.apache.commons.io.FileUtils;
 import org.example.entities.Book;
 import org.example.entities.Magazine;
 import org.example.entities.Periodicity;
 import org.example.entities.ReadingElement;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,7 +37,7 @@ public class Application {
             System.out.println("3.  Ricerca per ISBN");
             System.out.println("4. Ricerca per anno di pubblicazione");
             System.out.println("5. Ricerca per Autore");
-            System.out.println("6. Scarica catalogo");
+            System.out.println("6. Salva catalogo");
             try{
                 menuChoise= Integer.parseInt(in.nextLine());
                 if(menuChoise <0 || menuChoise>6) throw new RuntimeException("Seleziona il numero tra le voci");
@@ -162,9 +166,23 @@ public class Application {
                         while(true){
                             System.out.println("Inserire chiave identificativa");
                             try{
+                                int indice=-1;
                                 ISBN= Integer.parseInt(in.nextLine());
                                 catalogMap.remove(ISBN);
+
+                                for (int i = 0; i < catalog.size(); i++) {
+                                    if (catalog.get(i).getISBN()==ISBN) {
+                                        indice = i;
+                                        break; // Esci dal ciclo una volta trovato l'elemento
+                                    }
+                                }
+                                if(indice != -1){
+                                    catalog.remove(indice);
+                                }else{
+                                    throw new RuntimeException("non trovato nel catalogo");
+                                }
                                 System.out.println("elemento rimosso con successo");
+
                                 break;
                             }catch (Exception ex){
                                 System.err.println(ex.getMessage());
@@ -194,6 +212,15 @@ public class Application {
                         break;
                     }
                     case 6:{
+                        File file = new File("src/main/java/org.example/files/output.txt");
+                        try {
+                            FileUtils.writeStringToFile(file, "CIAO" + System.lineSeparator(), StandardCharsets.UTF_8, true);
+
+                            String contenuto = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+                            System.out.println("Nel file ho trovato: " + contenuto);
+                        } catch (IOException e) {
+                            System.err.println(e.getMessage());
+                        }
                         break;
                     }
 
