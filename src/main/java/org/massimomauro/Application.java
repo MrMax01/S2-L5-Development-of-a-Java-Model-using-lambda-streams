@@ -156,7 +156,81 @@ public class Application {
 
                                 }
                                 case 2:{
-                                    break;
+                                    int ISBN;
+                                    String title;
+                                    int year;
+                                    int pageNumber;
+                                    String author;
+                                    String type;
+                                    ISBN:
+                                    while(true){
+                                        System.out.println("Inserire codice identificativo intero");
+                                        try{
+                                            ISBN= Integer.parseInt(in.nextLine());
+                                            for (Integer key: catalogMap.keySet()) {
+                                                if(key==ISBN) throw new RuntimeException("Codice identificativo esistente");
+                                            }
+                                            break ISBN;
+                                        }catch (Exception ex){
+                                            System.err.println(ex.getMessage());
+                                        }
+                                    }
+                                    title:
+                                    while(true){
+                                        System.out.println("Inserire title");
+                                        try {
+                                            title= in.nextLine();
+                                            if(title.equals("")) throw new RuntimeException("titolo vuoto non è permesso");
+                                            break title;
+                                        }catch (Exception ex){
+                                            System.err.println(ex.getMessage());
+                                        }
+                                    }
+                                    year:
+                                    while(true){
+                                        System.out.println("Inserire anno di pubblicazione");
+                                        try{
+                                            LocalDate today = LocalDate.now();
+                                            year = Integer.parseInt(in.nextLine());
+                                            if(year > today.getYear() ) throw  new RuntimeException("Il libro non può essere pubblicato nel futuro");
+                                            break year;
+                                        }catch (Exception ex){
+                                            System.err.println(ex.getMessage());
+                                        }
+                                    }
+                                    pageNumber:
+                                    while(true){
+                                        System.out.println("Inserire numero di pagine");
+                                        try {
+                                            pageNumber= Integer.parseInt(in.nextLine());
+                                            if(pageNumber==0) throw  new RuntimeException("pagine minime consetite 1");
+                                            break pageNumber;
+                                        }catch (Exception ex){
+                                            System.err.println(ex.getMessage());
+                                        }
+                                    }
+                                    author:
+                                    while(true){
+                                        System.out.println("Inserire title");
+                                        try {
+                                            author= in.nextLine();
+                                            if(author.equals("")) author="Anonimo";
+                                            break author;
+                                        }catch (Exception ex){
+                                            System.err.println(ex.getMessage());
+                                        }
+                                    }
+                                    type:
+                                    while(true){
+                                        System.out.println("Inserire title");
+                                        try {
+                                            type= in.nextLine();
+                                            if(type.equals(""))throw new RuntimeException("categoria obbligatoria");
+                                            break type;
+                                        }catch (Exception ex){
+                                            System.err.println(ex.getMessage());
+                                        }
+                                    }
                                 }
                             }
                         }

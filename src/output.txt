@@ -1,0 +1,5 @@
+Book{ISBN=1, title='Lord Of Rings', year=1994, pageNumber=300, author='Tolkien', type='fantasy'}
+Book{ISBN=2, title='Harry Potter', year=1997, pageNumber=250, author='Rowling', type='fantasy'}
+Book{ISBN=3, title='Moby Dick ', year=1851, pageNumber=400, author='Rowling', type='avventura'}
+Magazine{ISBN=4, title='focus', year=1851, pageNumber=20, periodicity=SETTIMANALE}
+Magazine{ISBN=5, title='Panorama', year=1851, pageNumber=10, periodicity=SETTIMANALE}
