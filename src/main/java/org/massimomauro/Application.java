@@ -279,6 +279,22 @@ public class Application {
                     }
                     case 3:{
                         printCatalog(catalogMap);
+                        while (true){
+                            int ISBN;
+                            System.out.println("Inserire codice identifacativo");
+                            System.out.println("digita 0 per tornare al menù...");
+                            try{
+                                ISBN= Integer.parseInt(in.nextLine());
+                                if(ISBN==0) break;
+                                else if (catalogMap.get(ISBN) != null) {
+                                    System.out.println(catalogMap.get(ISBN));
+                                }else{
+                                    throw new RuntimeException("Nessun elemento trovato!");
+                                }
+                            }catch (Exception ex){
+                                System.err.println(ex.getMessage());
+                            }
+                        }
                         break;
                     }
                     case 4:{
@@ -308,10 +324,26 @@ public class Application {
                         List<Book> bookReadingElement;
                         bookReadingElement = catalog.stream().filter(element->element instanceof Book)
                                 .map(element -> new Book(element.getISBN(), element.getTitle(), element.getPageNumber(), element.getYear(), ((Book) element).getAuthor(), ((Book) element).getType())).toList();
-                        Map<String, List<Book>> catalogMapforAuthor=bookReadingElement.stream().collect(Collectors.groupingBy(Book::getAuthor));
-                        catalogMapforAuthor.forEach((k, v)->{
+                        Map<String, List<Book>> catalogMapForAuthor=bookReadingElement.stream().collect(Collectors.groupingBy(Book::getAuthor));
+                        catalogMapForAuthor.forEach((k, v)->{
                             System.out.println(k+":"+v);
                         });
+                        while (true){
+                            String author;
+                            System.out.println("Inserire autore che stai cercando:");
+                            System.out.println("digita 'esc' per tornare al menù...");
+                            try{
+                                author= in.nextLine();
+                                if(author.equals("esc")) break;
+                                else if (catalogMapForAuthor.get(author) != null) {
+                                    System.out.println(catalogMapForAuthor.get(author));
+                                }else{
+                                    throw new RuntimeException("Nessun elemento trovato!");
+                                }
+                            }catch (Exception ex){
+                                System.err.println(ex.getMessage());
+                            }
+                        }
                         break;
                     }
                     case 6:{
