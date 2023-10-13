@@ -152,7 +152,7 @@ public class Application {
                                     }catch(Exception ex){
                                         System.err.println(ex.getMessage());
                                     }
-
+                                    break;
 
                                 }
                                 case 2:{
@@ -211,7 +211,7 @@ public class Application {
                                     }
                                     author:
                                     while(true){
-                                        System.out.println("Inserire title");
+                                        System.out.println("Inserire nome autore");
                                         try {
                                             author= in.nextLine();
                                             if(author.equals("")) author="Anonimo";
@@ -222,7 +222,7 @@ public class Application {
                                     }
                                     type:
                                     while(true){
-                                        System.out.println("Inserire title");
+                                        System.out.println("Inserire categoria");
                                         try {
                                             type= in.nextLine();
                                             if(type.equals(""))throw new RuntimeException("categoria obbligatoria");
@@ -231,6 +231,16 @@ public class Application {
                                             System.err.println(ex.getMessage());
                                         }
                                     }
+                                    try{
+                                        ReadingElement update = new Book(ISBN, title, pageNumber, year, author, type);
+                                        catalog.add(update);
+                                        catalogMap.put(update.getISBN(), update);
+                                        System.out.println("elemento aggiunto con SUCCESSO!");
+                                        break case1;
+                                    }catch(Exception ex){
+                                        System.err.println(ex.getMessage());
+                                    }
+                                    break;
                                 }
                             }
                         }
@@ -362,22 +372,22 @@ public class Application {
         String author = fields[4].split("=")[1];
         String type = fields[5].split("=")[1];
 
-        // Crea e restituisci un oggetto Book
+
         return new Book(ISBN, title, year, pageNumber, author, type);
     }
     private static Magazine parseMagazine(String line) {
-        // Rimuovi il prefisso "Magazine{" e la parentesi chiusa "}" e dividi i campi
+
         line = line.substring(9, line.length() - 1);
         String[] fields = line.split(", ");
 
-        // Estrai i dati dai campi
+
         int ISBN = Integer.parseInt(fields[0].split("=")[1]);
         String title = fields[1].split("=")[1];
         int year = Integer.parseInt(fields[2].split("=")[1]);
         int pageNumber = Integer.parseInt(fields[3].split("=")[1]);
         Periodicity periodicity = Periodicity.valueOf(fields[4].split("=")[1]);
 
-        // Crea e restituisci un oggetto Magazine
+
         return new Magazine(ISBN, title, year, pageNumber, periodicity);
     }
 
