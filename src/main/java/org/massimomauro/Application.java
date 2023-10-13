@@ -35,7 +35,7 @@ public class Application {
             System.out.println("0. Esci dall'applicazione.");
             System.out.println("1. Aggiungi elemento al catalogo.");
             System.out.println("2. Rimuovere un elemento catalogo ");
-            System.out.println("3.  Ricerca per ISBN");
+            System.out.println("3. Ricerca per ISBN");
             System.out.println("4. Ricerca per anno di pubblicazione");
             System.out.println("5. Ricerca per Autore");
             System.out.println("6. Salva catalogo");
@@ -43,6 +43,7 @@ public class Application {
             try{
                 menuChoise= Integer.parseInt(in.nextLine());
                 if(menuChoise <0 || menuChoise>7) throw new RuntimeException("Seleziona il numero tra le voci");
+                menuChoise:
                 switch (menuChoise){
                     case 0:{
                         System.out.println("USCITO DALL'APPLICAZIONE CON SUCCESSO!");
@@ -285,6 +286,22 @@ public class Application {
                         catalogMapForYear.forEach((k, v)->{
                             System.out.println(k+":"+v);
                         });
+                         while (true){
+                             int year;
+                             System.out.println("Inserire anno di pubblicazione");
+                             System.out.println("digita 0 per tornare al menù...");
+                             try{
+                                 year= Integer.parseInt(in.nextLine());
+                                 if(year==0) break;
+                                 else if (catalogMapForYear.get(year) != null) {
+                                    System.out.println(catalogMapForYear.get(year));
+                                 }else{
+                                     throw new RuntimeException("Nessun elemento trovato!");
+                                 }
+                             }catch (Exception ex){
+                                 System.err.println(ex.getMessage());
+                             }
+                         }
                         break;
                     }
                     case 5:{
