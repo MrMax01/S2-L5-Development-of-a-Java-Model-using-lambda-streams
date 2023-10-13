@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.massimomauro.entities;
 
 
 public class Magazine extends ReadingElement{
@@ -21,7 +21,8 @@ public class Magazine extends ReadingElement{
     @Override
     public String toString() {
         return "Magazine{" +
-                "title='" + getTitle() + '\'' +
+                "ISBN="+ getISBN() +
+                ", title='" + getTitle() + '\'' +
                 ", year=" + getYear() +
                 ", pageNumber=" + getPageNumber() +
                 ", periodicity=" + periodicity +

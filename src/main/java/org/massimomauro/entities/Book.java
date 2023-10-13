@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.massimomauro.entities;
 
 
 
@@ -36,7 +36,8 @@ public class Book extends ReadingElement{
     @Override
     public String toString() {
         return "Book{" +
-                "title='" + getTitle() + '\'' +
+                "ISBN="+ getISBN() +
+                ", title='" + getTitle() + '\'' +
                 ", year=" + getYear() +
                 ", pageNumber=" + getPageNumber() +
                 ", author='" + author + '\'' +

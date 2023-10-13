@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.massimomauro.entities;
 
 import java.time.LocalDate;
 
@@ -56,7 +56,8 @@ public abstract class ReadingElement {
     @Override
     public String toString() {
         return "ReadingElement{" +
-                "title='" + title + '\'' +
+                "ISBN="+ ISBN +
+                ", title='" + title + '\'' +
                 ", year=" + year +
                 ", pageNumber=" + pageNumber +
                 '}';

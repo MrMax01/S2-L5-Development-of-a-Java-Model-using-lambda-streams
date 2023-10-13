@@ -1,11 +1,11 @@
-package org.example;
+package org.massimomauro;
 
 
 import org.apache.commons.io.FileUtils;
-import org.example.entities.Book;
-import org.example.entities.Magazine;
-import org.example.entities.Periodicity;
-import org.example.entities.ReadingElement;
+import org.massimomauro.entities.Book;
+import org.massimomauro.entities.Magazine;
+import org.massimomauro.entities.Periodicity;
+import org.massimomauro.entities.ReadingElement;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class Application {
     public static void main(String[] args) {
-        File file = new File("src/main/java/org.example/files/output.txt");
+        File file = new File("src/output.txt");
         List<ReadingElement> catalog = new ArrayList<>();
         catalog.add(new Book(1, "Lord Of Rings", 300, 1994, "Tolkien", "fantasy"));
         catalog.add(new Book(2, "Harry Potter", 250, 1997, "Rowling", "fantasy"));
@@ -232,38 +232,79 @@ public class Application {
                         break;
                     }
                     case 7:{
-                        try {
-                            List<String> lines = FileUtils.readLines(file, StandardCharsets.UTF_8);
 
-                            for (String line : lines) {
-                                List<ReadingElement> objectList = new ArrayList<>();
+                       try{
+                           List<ReadingElement> tmp = new ArrayList<>();
+                           String lines= FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+                           String[] line = lines.split(System.lineSeparator());
+                           for (int i = 0; i < line.length ; i++) {
+                                line[i]=line[i].trim();
+                                if(line[i].startsWith("Book")){
+                                   Book book = parseBook(line[i]);
+                                   tmp.add(book);
+                                }else if (line[i].startsWith("Magazine")) {
+                                    Magazine magazine = parseMagazine(line[i]);
+                                    tmp.add(magazine);
 
-                                // Dividi la riga in base al formato usato per separare i campi (ad esempio, uno spazio)
-                                String[] parts = line.split(" ");
+                                }
+                           }
+                           System.out.println("caricato con successo");
+                                catalog.clear();
+                                catalog.addAll(tmp);
+                       }catch (IOException e){
+                           System.err.println(e.getMessage());
+                       }
 
-                                // Estrai i dati dalla riga e crea un oggetto MyObject
-
-                            }
-                        }catch (IOException e){
-                            System.err.println(e.getMessage());
-                        }
                         break;
                     }
 
                 }
-            }catch (Exception ex){
+            }
+            catch (Exception ex){
                 System.err.println(ex.getMessage());
             }
 
 
         }
-
+        in.close();
     }
 
     public static void printCatalog(Map<Integer, ReadingElement> paper){
         paper.forEach((k, v)->{
             System.out.println(k+":"+v);
         });
+    }
+
+    public static Book parseBook(String line) {
+
+        line = line.substring(5, line.length() - 1);
+        String[] fields = line.split(", ");
+
+
+        int ISBN = Integer.parseInt(fields[0].split("=")[1]);
+        String title = fields[1].split("=")[1];
+        int year = Integer.parseInt(fields[2].split("=")[1]);
+        int pageNumber = Integer.parseInt(fields[3].split("=")[1]);
+        String author = fields[4].split("=")[1];
+        String type = fields[5].split("=")[1];
+
+        // Crea e restituisci un oggetto Book
+        return new Book(ISBN, title, year, pageNumber, author, type);
+    }
+    private static Magazine parseMagazine(String line) {
+        // Rimuovi il prefisso "Magazine{" e la parentesi chiusa "}" e dividi i campi
+        line = line.substring(9, line.length() - 1);
+        String[] fields = line.split(", ");
+
+        // Estrai i dati dai campi
+        int ISBN = Integer.parseInt(fields[0].split("=")[1]);
+        String title = fields[1].split("=")[1];
+        int year = Integer.parseInt(fields[2].split("=")[1]);
+        int pageNumber = Integer.parseInt(fields[3].split("=")[1]);
+        Periodicity periodicity = Periodicity.valueOf(fields[4].split("=")[1]);
+
+        // Crea e restituisci un oggetto Magazine
+        return new Magazine(ISBN, title, year, pageNumber, periodicity);
     }
 
 }

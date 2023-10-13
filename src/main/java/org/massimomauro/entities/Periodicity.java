@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.massimomauro.entities;
 
 public enum Periodicity {
     SETTIMANALE,
