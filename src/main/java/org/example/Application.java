@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 public class Application {
     public static void main(String[] args) {
+        File file = new File("src/main/java/org.example/files/output.txt");
         List<ReadingElement> catalog = new ArrayList<>();
         catalog.add(new Book(1, "Lord Of Rings", 300, 1994, "Tolkien", "fantasy"));
         catalog.add(new Book(2, "Harry Potter", 250, 1997, "Rowling", "fantasy"));
@@ -38,9 +39,10 @@ public class Application {
             System.out.println("4. Ricerca per anno di pubblicazione");
             System.out.println("5. Ricerca per Autore");
             System.out.println("6. Salva catalogo");
+            System.out.println("7. Carico catalogo salvato");
             try{
                 menuChoise= Integer.parseInt(in.nextLine());
-                if(menuChoise <0 || menuChoise>6) throw new RuntimeException("Seleziona il numero tra le voci");
+                if(menuChoise <0 || menuChoise>7) throw new RuntimeException("Seleziona il numero tra le voci");
                 switch (menuChoise){
                     case 0:{
                         System.out.println("USCITO DALL'APPLICAZIONE CON SUCCESSO!");
@@ -212,13 +214,37 @@ public class Application {
                         break;
                     }
                     case 6:{
-                        File file = new File("src/main/java/org.example/files/output.txt");
-                        try {
-                            FileUtils.writeStringToFile(file, "CIAO" + System.lineSeparator(), StandardCharsets.UTF_8, true);
+                        StringBuilder sb = new StringBuilder();
+                        for (ReadingElement obj : catalog) {
+                            sb.append(obj.toString()).append(System.lineSeparator());
+                        }
 
-                            String contenuto = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-                            System.out.println("Nel file ho trovato: " + contenuto);
+
+                        try {
+
+                            FileUtils.writeStringToFile(file, sb.toString(), StandardCharsets.UTF_8, false);
+
+                            System.out.println("Lista di oggetti scritta nel file: " + file.getAbsolutePath());
+
                         } catch (IOException e) {
+                            System.err.println(e.getMessage());
+                        }
+                        break;
+                    }
+                    case 7:{
+                        try {
+                            List<String> lines = FileUtils.readLines(file, StandardCharsets.UTF_8);
+
+                            for (String line : lines) {
+                                List<ReadingElement> objectList = new ArrayList<>();
+
+                                // Dividi la riga in base al formato usato per separare i campi (ad esempio, uno spazio)
+                                String[] parts = line.split(" ");
+
+                                // Estrai i dati dalla riga e crea un oggetto MyObject
+
+                            }
+                        }catch (IOException e){
                             System.err.println(e.getMessage());
                         }
                         break;
