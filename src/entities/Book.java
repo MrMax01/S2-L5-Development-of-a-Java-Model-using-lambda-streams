@@ -11,6 +11,8 @@ public class Book extends ReadingElement{
         this.type = type;
     }
 
+
+
     public String getAuthor() {
         return author;
     }

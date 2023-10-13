@@ -27,7 +27,7 @@ public class Main {
             System.out.println("0. Esci dall'applicazione.");
             System.out.println("1. Aggiungi elemento al catalogo.");
             System.out.println("2. Rimuovere un elemento catalogo ");
-            System.out.println("3. Rimuovere un elemento catalogo ");
+            System.out.println("3.  Ricerca per ISBN");
             System.out.println("4. Ricerca per anno di pubblicazione");
             System.out.println("5. Ricerca per Autore");
             System.out.println("6. Scarica catalogo");
@@ -75,6 +75,7 @@ public class Main {
                                         System.out.println("Inserire title");
                                         try {
                                             title= in.nextLine();
+                                            if(title.equals("")) throw new RuntimeException("titolo vuoto non è permesso");
                                             break title;
                                         }catch (Exception ex){
                                             System.err.println(ex.getMessage());
@@ -169,12 +170,24 @@ public class Main {
                         break;
                     }
                     case 3:{
+                       printCatalog(catalogMap);
                         break;
                     }
                     case 4:{
+                        Map <Integer, List<ReadingElement>> catalogMapForYear= catalog.stream().collect(Collectors.groupingBy(ReadingElement::getYear));
+                        catalogMapForYear.forEach((k, v)->{
+                            System.out.println(k+":"+v);
+                        });
                         break;
                     }
                     case 5:{
+                        List<Book> bookReadingElement;
+                        bookReadingElement = catalog.stream().filter(element->element instanceof Book)
+                                .map(element -> new Book(element.getISBN(), element.getTitle(), element.getPageNumber(), element.getYear(), ((Book) element).getAuthor(), ((Book) element).getType())).toList();
+                        Map<String, List<Book>> catalogMapforAuthor=bookReadingElement.stream().collect(Collectors.groupingBy(Book::getAuthor));
+                        catalogMapforAuthor.forEach((k, v)->{
+                            System.out.println(k+":"+v);
+                        });
                         break;
                     }
                     case 6:{
